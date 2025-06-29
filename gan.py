@@ -1,10 +1,9 @@
 import os
 import tqdm
 import torch
-import random
 from torch import nn
 import torch.optim as optim
-from torchvision import datasets, transforms
+from samplers.mnist_sampler import MNISTImagesSampler
 from utils import reset_dir, save_grid, plot_learning_curves
 
 Z_DIM = 100
@@ -50,32 +49,7 @@ class Generator(nn.Module):
         return x.view(-1, 1, 28, 28)
 
 
-class MNISTImagesSampler:
-    def __init__(self) -> None:
-        transform = transforms.Compose([
-            transforms.ToTensor(),
-            transforms.Normalize(mean=(0.5, ),std=(0.5, ))
-        ])
 
-        self.dataset = datasets.MNIST(root='./data',
-                                       train=True,
-                                       download=True,
-                                       transform=transform)
-        self.indices = list(range(len(self.dataset)))
-        random.shuffle(self.indices)
-        self.position = 0
-
-    def sample(self, n_samples: int) -> torch.Tensor:
-        if self.position + n_samples > len(self.indices):
-            random.shuffle(self.indices)
-            self.position = 0
-
-        batch_indices = self.indices[self.position:self.position + n_samples]
-        self.position += n_samples
-
-        batch = [self.dataset[i] for i in batch_indices]
-        data, _ = zip(*batch)
-        return torch.stack(data)
 
 def sample_z(n_samples: int) -> torch.Tensor:
     return torch.normal(mean=0, std=1, size=(n_samples, Z_DIM))
