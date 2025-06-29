@@ -1,6 +1,9 @@
 .DS_Store
 .idea
 /data
+/training_logs/*
+!/training_logs/.gitkeep
+
 *__pycache__*
 .pytest_cache
 .coverage
