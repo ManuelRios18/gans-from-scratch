@@ -12,4 +12,4 @@ This repository was created for educational purposes, therefore, many training p
 
 # Usage 
 
-Simply install the requirements `pip install requiremnts.txt` and then execute any file you want to try `python gan.py`.
+Simply install the requirements `pip install requirements.txt` and then execute any file you want to try `python gan.py`.
